@@ -1,0 +1,50 @@
+<article class="card">
+  <div class="card-header">
+    <div class="title-and-actions">
+      <h2 class="title">{{ title() }}</h2>
+      @if (canRemove() && participant().type === 'Guest') {
+        <button
+          type="button"
+          class="btn-remove"
+          [attr.aria-label]="'Remove ' + participant().name"
+          (click)="onRemove()"
+        >
+          Remove Guest
+        </button>
+      }
+    </div>
+    @if (participant().isSubmitted) {
+      <span class="chip submitted">Submitted</span>
+    } @else {
+      <span class="chip pending">Still choosing</span>
+    }
+  </div>
+
+  @if (participant().items.length > 0) {
+    <ul class="items-list">
+      @for (item of participant().items; track item.dish.id) {
+        <li class="item-row">
+          <div class="dish-info">
+            @if (item.dish.imageUrl) {
+              <img [src]="item.dish.imageUrl" [alt]="item.dish.name" width="40" height="40" loading="lazy" class="dish-img" />
+            } @else {
+              <div class="dish-placeholder">{{ item.dish.name.charAt(0) }}</div>
+            }
+            <span class="dish-name">{{ item.dish.name }}</span>
+          </div>
+          <div class="dish-meta">
+            <span class="qty">× {{ item.quantity }}</span>
+            <span class="price">{{ item.dish.price * item.quantity | currency }}</span>
+          </div>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="empty">No dishes yet</p>
+  }
+
+  <div class="subtotal">
+    <span>Subtotal</span>
+    <span>{{ participant().total | currency }}</span>
+  </div>
+</article>
