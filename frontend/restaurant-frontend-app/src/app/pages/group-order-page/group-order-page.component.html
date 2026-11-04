@@ -37,8 +37,8 @@
       <div class="sync-row">
         @if (refreshError()) {
           <span class="sync-status error">{{ refreshError() }}</span>
-        } @else if (lastUpdatedAt(); as dt) {
-          <span class="sync-status">Updated at {{ dt | date:'mediumTime' }}</span>
+        } @else if (lastUpdatedAt()) {
+        <span class="sync-status">Updated at {{ lastUpdatedAt() | date:'mediumTime' }}</span>
         }
         @if (groupStatus() !== 'Submitted') {
           <button type="button" class="btn-refresh" (click)="manualRefresh()">Refresh</button>
